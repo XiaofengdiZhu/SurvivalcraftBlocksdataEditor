@@ -57,10 +57,12 @@ var Blocks_amount = 0;
 var Blocksdata_array = new Array();
 var Data_amount = 0;
 var Dataname_array = new Array();
+var Data_name2index = {};
 //var Blocksdata_json = {};
 var Block_name2index = {};
 var Block_cant_edit = new Array();
 Block_cant_edit[0] = 0;
+var BlocksWithDuration = new Array();
 
 //初始化
 function analizeBlocksdata_initiate() {
@@ -74,6 +76,7 @@ function analizeBlocksdata_initiate() {
 	$("#block_max").attr({"max":"1","value":"1"});
 	Block_cant_edit = new Array();
 	Block_cant_edit[0] = 0;
+	BlocksWithDuration = new Array();
 }
 
 function analizeBlocksdata() {
@@ -110,6 +113,9 @@ function analizeBlocksdata() {
 			Block_cant_edit[Block_cant_edit.length] = i;
 			continue;
 		}
+		if(Blocksdata_array[i][Data_name2index["Durability"]] != "-1"){
+			BlocksWithDuration[BlocksWithDuration.length] = i;
+		}
 		//方块名称相关
 		Blockname_array[k] = Blocksdata_array[i][0];
 		$("#selectBlock").append("<option>" + Blockname_array[k] + "</option>");
@@ -122,11 +128,16 @@ function analizeBlocksdata() {
 			//对第一行的每个分号间内容进行操作，属性名称相关
 			if (i === 0) {
 				Dataname_array[j] = Blocksdata_array[0][j];
+				Data_name2index[Dataname_array[j]] = j;
 				$("#selectData").append("<option>" + Dataname_array[j] + "</option>");
 				$("#selectData1").append("<option>" + Dataname_array[j] + "</option>");
 			}
 		}
 	}
+}
+
+function changeBlockData_byName(BlockName, DataName, new_BlockData){
+	Blocksdata_array[Block_name2index[BlockName]][Data_name2index[DataName]] = new_BlockData;
 }
 
 var selectedBlock_trueIndex = 0;
@@ -200,7 +211,7 @@ var BlockData1 = "";
 function saveChange1() {
 	BlockData1 = $("#BlockData1").val();
 	for(var i = block_min - 1; i < block_max; i++){
-		if(Block_cant_edit.indexOf(selectedBlock_trueIndex) > -1)continue;
+		if(Block_cant_edit.indexOf(selectedBlock_trueIndex) > -1 || ($("#isSkipBlocksWithDuration")[0].checked && BlocksWithDuration.indexOf(selectedBlock_trueIndex) == -1))continue;
 		Blocksdata_array[i][selectedData1_trueIndex] = BlockData1;
 	}
 }
@@ -221,4 +232,11 @@ function generateNewBlocksdata() {
 	}
 	Blocksdata_string_new = Blocks_array_new.join("\r\n");
 	$("#a_save").attr("href", generateDataURL(Blocksdata_string_new));
+}
+
+function BedrockComprehensiveMod(){
+  changeBlockData_byName("BedrockBlock","IsPlaceable","TRUE");
+  changeBlockData_byName("BedrockBlock","IsGatherable","TRUE");
+  changeBlockData_byName("BedrockBlock","DefaultCreativeData","0");
+  changeBlockData_byName("BedrockBlock","DigResilience","0");
 }
