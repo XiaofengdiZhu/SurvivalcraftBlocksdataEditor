@@ -5,12 +5,14 @@
   <meta charset="utf-8">
   <title>Blocksdata编辑器</title>
   <script src="js/jquery.min.js"></script>
-  <script src="js/main.js"></script>
+  <style>
+    .log_p{
+      margin: 1px;
+    }
+  </style>
 </head>
 
 <body>
-  <script>
-  </script>
   <style>
      * {
       margin: 10px;
@@ -23,6 +25,7 @@
   <div>
     <input type="file" id="file" onchange="inputFiles(this.files)" />
     <button type="button" onclick="analizeBlocksdata();">开始解析</button>
+    <input type="checkbox" id="isOutputDetailAnalizeLog">输出详细解析日志</input>
   </div>
   <div>
     选择方块<select id="selectBlock" onchange="selectChanged()" style="width:220px;"></select>
@@ -47,5 +50,10 @@
     <button type="button" onclick="generateNewBlocksdata();">生成新的Blocksdata</button></br>
     <a href="" target="_blank" id="a_save">点了上面后右键我另存</a>
   </div>
+  <div>
+    <div id="log_div" style="width:400px;height:200px;overflow:scroll;resize:both;border:1px solid;padding-left:10px;font-size:13px;">
+    </div>
+  </div>
 </body>
+<script src="js/main.js"></script>
 </html>
