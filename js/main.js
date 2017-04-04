@@ -267,6 +267,27 @@ function saveChange1() {
   outputLog("来自批量编辑：保存成功，已跳过第一行、" + Block_cant_edit.length + "行空行" + ($("#isSkipBlocksWithDuration")[0].checked?("和" + BlocksWithDuration.length +"行有耐久度的方块行"):""));
 }
 
+var clipboard = new Clipboard('#btn_copy', {
+    text: function(trigger) {
+        return Blocksdata_string_new;
+    }
+});
+
+clipboard.on('success', function(e) {
+    outputLog("来自复制到剪贴板：复制成功");
+    e.clearSelection();
+});
+
+clipboard.on('error', function(e) {
+    outputLog("来自复制到剪贴板：复制失败");
+});
+var clipboard_isSupported = Clipboard.isSupported();
+if(clipboard_isSupported){
+	$("#btn_copy").html("复制到剪贴板");
+	$("#btn_copy").removeAttr("disabled");
+	$("#textarea_blocksdata").hide();
+}else outputLog("来自复制到剪贴板：你的浏览器不支持此功能");
+
 var Blocks_array_new = new Array();
 var Blocksdata_string_new = "";
 
@@ -286,6 +307,10 @@ function generateNewBlocksdata() {
   outputLog("来自生成新Blocksdata：生成新的Blocksdata字符串成功");
 	$("#a_save").attr("href", generateDataURL(Blocksdata_string_new));
   outputLog("来自生成新Blocksdata：生成新的Blocksdata文件成功，现在可以下载");
+  if(!clipboard_isSupported){
+	$("#textarea_blocksdata").val(Blocksdata_string_new);
+  outputLog("来自生成新Blocksdata：新的Blocksdata已输出到文本框，可全选复制");
+  }
 }
 
 function BedrockComprehensiveMod(){
