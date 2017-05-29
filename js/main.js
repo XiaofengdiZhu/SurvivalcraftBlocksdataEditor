@@ -279,7 +279,12 @@ clipboard.on('success', function(e) {
 });
 
 clipboard.on('error', function(e) {
-    outputLog("来自复制到剪贴板：复制失败");
+	clipboard_isSupported = false;
+	$("#btn_copy").html("<del>复制到剪贴板</del>");
+	$("#btn_copy").attr("disabled","disabled");
+	$("#textarea_blocksdata").show();
+	$("#textarea_blocksdata").val(Blocksdata_string_new);
+    outputLog("来自复制到剪贴板：复制失败，已输出到底部文本框");
 });
 var clipboard_isSupported = Clipboard.isSupported();
 if(clipboard_isSupported){
@@ -309,7 +314,7 @@ function generateNewBlocksdata() {
   outputLog("来自生成新Blocksdata：生成新的Blocksdata文件成功，现在可以下载");
   if(!clipboard_isSupported){
 	$("#textarea_blocksdata").val(Blocksdata_string_new);
-  outputLog("来自生成新Blocksdata：新的Blocksdata已输出到文本框，可全选复制");
+	outputLog("来自生成新Blocksdata：新的Blocksdata已输出到文本框，可全选复制");
   }
 }
 

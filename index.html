@@ -7,6 +7,9 @@
   <script src="js/jquery.min.js"></script>
   <script src="js/clipboard.min.js"></script>
   <style>
+     * {
+      margin: 10px;
+     }
     .log_p{
       margin: 1px;
     }
@@ -14,42 +17,38 @@
 </head>
 
 <body>
-  <style>
-     * {
-      margin: 10px;
-     }
-  </style>
+  <div>Blocksdata编辑器0.0.6</div>
   <div>
-    操作步骤：选择文件-开始解析-选择方块(或行数)-选择属性-修改值-生成新的Blocksdata-另存</br>
+    操作步骤：选择文件-开始解析-选择方块(或行数)-选择属性-修改值-生成新的Blocksdata-另存<br />
     (不能修改第1行和只有分号的空行,范围修改会自动跳过)
   </div>
   <div>
     <input type="file" id="file" onchange="inputFiles(this.files)" />
     <button type="button" onclick="analizeBlocksdata();">开始解析</button>
-    <input type="checkbox" id="isOutputDetailAnalizeLog">输出详细解析日志</input>
+    <input type="checkbox" id="isOutputDetailAnalizeLog" />输出详细解析日志
   </div>
   <div>
     选择方块<select id="selectBlock" onchange="selectChanged()" style="width:220px;"></select>
     选择属性<select id="selectData" onchange="selectChanged()" style="width:190px;"></select>
-    修改为<input type="text" id="BlockData"></input>
+    修改为<input type="text" id="BlockData" />
     <button type="button" onclick="saveChange();">保存</button>
   </div>
   <div>
     要修改的行数范围(最大<span id="block_max_display">1</span>)
-    <input id="block_min" type="number" min="1" max="1" step="1" value="1" onchange="block_min_Changed()" style="width:50px;"></input>-
-    <input id="block_max" min="1" max="1" step="1" value="1" type="number" onchange="block_max_Changed()" style="width:50px;"></input>
+    <input id="block_min" type="number" min="1" max="1" step="1" value="1" onchange="block_min_Changed()" style="width:50px;"/>-
+    <input id="block_max" min="1" max="1" step="1" value="1" type="number" onchange="block_max_Changed()" style="width:50px;"/>
     <button type="button" onclick="selectAllBlocks();">全选</button>
     <select id="selectData1" onchange="selectChanged1()" style="width:190px;"></select>
-    修改为<input type="text" id="BlockData1"></input>
-    <input type="checkbox" id="isSkipBlocksWithDuration">跳过有耐久度的方块</input>
+    修改为<input type="text" id="BlockData1"/>
+    <input type="checkbox" id="isSkipBlocksWithDuration" />跳过有耐久度的方块
     <button type="button" onclick="saveChange1();">修改并保存</button>
   </div>
   <div>
     <button type="button" onclick="BedrockComprehensiveMod();">基岩综合</button>
   </div>
   <div>
-    <button type="button" onclick="generateNewBlocksdata();">生成新的Blocksdata</button></br>
-    <a href="" target="_blank" id="a_save">点了上面后右键我另存</a>或
+    <button type="button" onclick="generateNewBlocksdata();">生成新的Blocksdata</button><br />
+    <a href="javascript:void(0)" target="_blank" id="a_save" download="BlockData.txt">点了上面后点我下载</a>或
     <button type="button" id="btn_copy" disabled="disabled"><del>复制到剪贴板</del></button>
   </div>
   <div>
