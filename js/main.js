@@ -108,9 +108,9 @@ function analizeBlocksdata() {
 		outputLog("来自Blocksdata解析：未检测到Blocksdata文件");
 		return;
 	}
-	Blocks_array = Blocksdata_string.split("\r\n"); //分割行
+	Blocks_array = Blocksdata_string.split(/\r\n|\n/); //分割行
 	Blocks_amount = Blocks_array.length;
-	if (Blocks_amount === 0) {
+	if (Blocks_amount < 2) {
 		outputLog("来自Blocksdata解析：请确认载入的文件是一个Blocksdata文件");
 		analizeBlocksdata_initiate();
 		return;
